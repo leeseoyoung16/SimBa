@@ -7,6 +7,7 @@
 - Lombok / Validation
 - MySQL
 - Postman (API 테스트용)
+
   ---
 ## 🛠️ 진행 상황
 
@@ -18,6 +19,7 @@
 | 4차시 | 미정 | 🔜 | 미정 |
 
 ---
+## 📝 프로젝트 정리
 [노션 페이지](https://longhaired-stove-0a0.notion.site/Simba-244c5950949880a5989bd47ea21236f2?pvs=74)
 
 
