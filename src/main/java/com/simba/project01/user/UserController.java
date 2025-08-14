@@ -37,7 +37,7 @@ public class UserController
                 HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
                 SecurityContextHolder.getContext()
         );
-        return ResponseEntity.ok(auth.getPrincipal());
+        return ResponseEntity.ok().build();
     }
 
     //회원 가입

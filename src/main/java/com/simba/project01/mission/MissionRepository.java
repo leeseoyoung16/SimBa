@@ -1,24 +1,31 @@
 package com.simba.project01.mission;
 
+import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface MissionRepository extends JpaRepository<Mission, Long>
 {
     List<Mission> findByStoreIdOrderByStartAtDesc(Long storeId);
 
-    // 진행 중 + 보상 남음 (승인 리뷰 수 기반)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select m from Mission m where m.id = :id")
+    Optional<Mission> findByIdForUpdate(@Param("id") Long id);
+
     @Query("""
-    select m from Mission m
+    select m
+    from Mission m
     where :now between m.startAt and m.endAt
-      and (m.rewardTotalCount >
-           (select count(r) from Review r where r.mission = m and r.approved = true))
+      and m.rewardRemainingCount > 0
     order by m.startAt desc
     """)
-    List<Mission> findJoinable(LocalDateTime now);
+    List<Mission> findJoinable(@Param("now") LocalDateTime now);
 
     @Query("select m from Mission m where m.startAt > :now order by m.startAt asc")
     List<Mission> findScheduled(LocalDateTime now);

@@ -17,6 +17,8 @@ public class MissionResponse
 
     private int rewardTotalCount;
 
+    private int rewardRemainingCount;
+
     private LocalDateTime startAt;
 
     private LocalDateTime endAt;
@@ -29,6 +31,7 @@ public class MissionResponse
         this.description = mission.getDescription();
         this.rewardContent = mission.getRewardContent();
         this.rewardTotalCount = mission.getRewardTotalCount();
+        this.rewardRemainingCount = mission.getRewardRemainingCount();
         this.startAt = mission.getStartAt();
         this.endAt = mission.getEndAt();
         this.storeId = mission.getStore().getId();

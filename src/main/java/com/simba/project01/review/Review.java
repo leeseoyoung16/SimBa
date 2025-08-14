@@ -3,11 +3,8 @@ package com.simba.project01.review;
 import com.simba.project01.mission.Mission;
 import com.simba.project01.user.User;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,12 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table(uniqueConstraints = {
+        @UniqueConstraint(
+                name = "uk_review_user_mission",
+                columnNames = {"user_id", "mission_id"}
+        )
+})
 public class Review
 {
     @Id
@@ -24,15 +27,14 @@ public class Review
 
     private Integer rating;
 
-    private String ImgURL;
+    @Column(name = "img_url")
+    private String imgUrl;
 
-    @NotBlank
-    @Size(max = 2000)
     @Column(nullable = false, length = 2000)
     private String content;
 
     @Column(nullable = false)
-    private boolean approved = false;
+    private ReviewStatus status;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

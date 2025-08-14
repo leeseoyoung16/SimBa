@@ -32,6 +32,7 @@ public class MissionService
         mission.setDescription(description);
         mission.setRewardContent(rewardContent);
         mission.setRewardTotalCount(rewardCount);
+        mission.setRewardRemainingCount(rewardCount);
         mission.setStartAt(startAt);
         mission.setEndAt(endAt);
         mission.setStore(store);

@@ -34,6 +34,9 @@ public class Mission
     @Column(name = "reward_total_count", nullable = false)
     private int rewardTotalCount;
 
+    @Column(nullable = false)
+    private int rewardRemainingCount;
+
     @Column(name = "start_at", nullable = false)
     private LocalDateTime startAt;
 
@@ -54,10 +57,11 @@ public class Mission
     }
 
     //남은 보상 수량
-    @Transient
-    public int getRewardRemainingCount(int approvedReviewCount) {
-        int remaining = rewardTotalCount - (int) approvedReviewCount;
-        return Math.max(0, remaining);
+    public void decreaseRewardCount() {
+        if (rewardRemainingCount <= 0) {
+            throw new IllegalStateException("지급 가능한 보상이 없습니다.");
+        }
+        rewardRemainingCount--;
     }
 
     //참여 가능 상태?

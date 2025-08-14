@@ -44,7 +44,7 @@ public class MissionController
 
     //미션 단건 조회
     @GetMapping("/{missionId}")
-    public ResponseEntity<MissionResponse> getOne(@PathVariable Long missionId) {
+    public ResponseEntity<MissionResponse> getById(@PathVariable Long missionId) {
         Mission mission = missionService.getOne(missionId);
         return ResponseEntity.ok(new MissionResponse(mission));
     }
