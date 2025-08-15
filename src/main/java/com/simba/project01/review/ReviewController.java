@@ -75,6 +75,7 @@ public class ReviewController
         return ResponseEntity.ok(reviews);
     }
 
+
     //리뷰 가게별 조회
     @GetMapping(value = "/reviews", params = "storeId")
     public ResponseEntity<List<ReviewResponse>> getByStore(@RequestParam Long storeId)

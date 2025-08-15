@@ -82,6 +82,9 @@ public class MissionService
     public void delete(Long missionId, Long userId) {
         Mission mission = missionRepository.findById(missionId)
                 .orElseThrow(() -> new IllegalArgumentException("미션을 찾을 수 없습니다."));
+        if(mission.getRewardRemainingCount() != mission.getRewardTotalCount()) {
+            throw new IllegalStateException("이미 참여한 사람이 존재하기 때문에 삭제가 불가능합니다.");
+        }
         if (!mission.getStore().getUser().getId().equals(userId)) {
             throw new AccessDeniedException("이 가게의 소유자만 미션을 삭제할 수 있습니다.");
         }

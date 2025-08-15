@@ -64,12 +64,19 @@ public class Mission
         rewardRemainingCount--;
     }
 
+    public void increaseRewardCount()
+    {
+        if (rewardRemainingCount < rewardTotalCount) {
+            rewardRemainingCount++;
+        }
+    }
+
     //참여 가능 상태?
     @Transient
-    public boolean isJoinable(LocalDateTime when, long approvedReviewCount) {
+    public boolean isJoinable(LocalDateTime when) {
         LocalDateTime t = (when != null) ? when : LocalDateTime.now();
         boolean inPeriod = !t.isBefore(startAt) && !t.isAfter(endAt);
-        boolean hasStock = (rewardTotalCount - approvedReviewCount) > 0;
+        boolean hasStock = rewardRemainingCount > 0;
         return inPeriod && hasStock;
     }
 

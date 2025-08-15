@@ -33,6 +33,7 @@ public class Review
     @Column(nullable = false, length = 2000)
     private String content;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReviewStatus status;
 

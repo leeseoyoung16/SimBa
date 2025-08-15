@@ -2,7 +2,9 @@ package com.simba.project01.review;
 
 import com.simba.project01.mission.Mission;
 import com.simba.project01.mission.MissionRepository;
-import com.simba.project01.store.Store;
+import com.simba.project01.voucher.Voucher;
+import com.simba.project01.voucher.VoucherRepository;
+import com.simba.project01.voucher.VoucherStatus;
 import com.simba.project01.store.StoreRepository;
 import com.simba.project01.user.User;
 import com.simba.project01.user.UserRepository;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -28,6 +31,7 @@ public class ReviewService
     private final UserRepository userRepository;
     private final MissionRepository missionRepository;
     private final StoreRepository storeRepository;
+    private final VoucherRepository reviewVoucherRepository;
 
     @Value("${file.upload-dir}")
     private String uploadDir;
@@ -42,6 +46,9 @@ public class ReviewService
                 .orElseThrow(() -> new IllegalArgumentException("일치하는 미션을 찾을 수 없습니다."));
         if (reviewRepository.existsByUserAndMission(user, mission)) {
             throw new IllegalArgumentException("이미 리뷰를 작성했습니다.");
+        }
+        if(!mission.isJoinable(LocalDateTime.now())) {
+            throw new IllegalArgumentException("현재 참여할 수 없는 미션입니다.");
         }
         // 보상 재고 확인 & 차감
         mission.decreaseRewardCount();
@@ -120,18 +127,34 @@ public class ReviewService
         Review review = reviewRepository.findById(reviewId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 리뷰입니다."));
 
+        // 권한: 작성자 또는 ADMIN
         if (!user.getRole().equals(UserRole.ADMIN) && !review.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("관리자 또는 작성자만 리뷰를 삭제할 수 있습니다.");
         }
 
-        //삭제시 이미지도 제거
+        // 바우처 확인
+        Voucher voucher = reviewVoucherRepository.findByReviewId(reviewId).orElse(null);
+        if (voucher != null) {
+            // 사용된 바우처면 삭제 불가
+            if (voucher.getVStatus() == VoucherStatus.USED) {
+                throw new IllegalStateException("이미 사용된 바우처가 있어 리뷰를 삭제할 수 없습니다.");
+            }
+
+            reviewVoucherRepository.delete(voucher);
+
+            // 재고 환불
+            review.getMission().increaseRewardCount();
+        }
+
+        // 이미지 파일 삭제
         if (review.getImgUrl() != null) {
             String fileName = Paths.get(review.getImgUrl()).getFileName().toString();
             File oldFile = new File(uploadDir, fileName);
             if (oldFile.exists()) oldFile.delete();
         }
-        reviewRepository.delete(review);
 
+        // 리뷰 삭제
+        reviewRepository.delete(review);
     }
     //리뷰 승인
     @Transactional
@@ -158,6 +181,18 @@ public class ReviewService
             throw new IllegalStateException("이미 처리된 리뷰입니다.");
         }
         review.setStatus(status);
+
+        //리뷰 승인시 바우처 생성
+        if(status == ReviewStatus.APPROVED) {
+            Voucher voucher = new Voucher();
+            voucher.setReview(review);
+            reviewVoucherRepository.save(voucher);
+        }
+
+        //리뷰 승인 거절시 재고 환불
+        if(status == ReviewStatus.REJECTED) {
+            review.getMission().increaseRewardCount();
+        }
     }
     //유저별 리뷰 조회
     @Transactional(readOnly = true)
