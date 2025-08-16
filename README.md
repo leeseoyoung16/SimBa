@@ -1,12 +1,17 @@
 ## ⚙️ 기술 스택
+
 ### 👩‍💻 백엔드
-- Java 17
-- Spring Boot 3.5.3
-- Spring Web / Spring Data JPA
-- Spring Security
-- Lombok / Validation
-- MySQL
-- Postman (API 테스트용)
+- Java 17  
+- Spring Boot 3.5.3  
+- Spring Web / Spring Data JPA  
+- Spring Security  
+- Lombok / Validation  
+- MySQL  
+- Swagger (API 문서화)  
+- Postman (API 테스트)  
+
+### 🤖 AI / 외부 API
+- Google Gemini API (리뷰 요약 기능)  
 
   ---
 ## 🛠️ 진행 상황
@@ -20,7 +25,7 @@
 | 5차시 | Mission | ✅ | 미션 CRUD 기능 |
 | 6차시 | Review | ✅ | 리뷰 CRUD 기능 |
 | 7차시 | Voucher | ✅ | 바우처 CRUD 기능 |
-| 8차시 | Summary | 🔄️ | 리뷰 요약 ai 기능 |
+| 8차시 | Summary | ✅ | 리뷰 요약 ai 기능 |
 
 ---
 ## 📝 프로젝트 정리
