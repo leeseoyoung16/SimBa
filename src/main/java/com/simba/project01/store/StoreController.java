@@ -1,6 +1,7 @@
 package com.simba.project01.store;
 
 import com.simba.project01.LoginUser;
+import com.simba.project01.review.ReviewSummaryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,8 @@ import java.util.List;
 public class StoreController
 {
     private final StoreService storeService;
+    private final ReviewSummaryService reviewSummaryService;
+
     //등록
     @PostMapping
     public ResponseEntity<Void> createStore(@RequestBody @Valid StoreCreateRequest createRequest, @AuthenticationPrincipal LoginUser loginUser) {
@@ -58,5 +61,13 @@ public class StoreController
                 .map(StoreResponse::new)
                 .toList();
         return ResponseEntity.ok(stores);
+    }
+
+    //가게 별 리뷰 요약
+    @GetMapping("/{storeId}/summary")
+    public ResponseEntity<String> getReviewSummary(@PathVariable Long storeId)
+    {
+        String summary = reviewSummaryService.summarizeReviews(storeId);
+        return ResponseEntity.ok(summary);
     }
 }

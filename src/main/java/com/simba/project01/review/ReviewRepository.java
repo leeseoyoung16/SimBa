@@ -15,4 +15,6 @@ public interface ReviewRepository extends JpaRepository<Review, Long>
     boolean existsByUserAndMission(User user, Mission mission);
     List<Review> findByUserId(Long userId);
     List<Review> findByMissionStoreId(Long storeId);
+
+    List<Review> findTop500ByMission_Store_IdOrderByCreatedAtDesc(Long storeId);
 }

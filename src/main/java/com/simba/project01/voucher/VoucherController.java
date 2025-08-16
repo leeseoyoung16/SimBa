@@ -28,7 +28,7 @@ public class VoucherController
         Voucher voucher = voucherService.getById(voucherId, user.getId());
         return ResponseEntity.ok(new VoucherResponse(voucher));
     }
-    //본ㄴ인 목록 상태별 조회
+    //본인 목록 상태별 조회
     @GetMapping("/me/vouchers")
     public ResponseEntity<List<VoucherResponse>> getByUser(@AuthenticationPrincipal LoginUser user, @RequestParam(defaultValue = "issued") String filter) {
         List<VoucherResponse> vouchers = voucherService.getByUser(user.getId(), filter).stream()
@@ -37,7 +37,7 @@ public class VoucherController
         return ResponseEntity.ok(vouchers);
     }
     //바우처 사용
-    @PatchMapping("me/vouchers/{voucherId}:use")
+    @PatchMapping("me/vouchers/{voucherId}/use")
     public ResponseEntity<Void> useVoucher(@AuthenticationPrincipal LoginUser loginUser, @PathVariable Long voucherId) {
         voucherService.use(loginUser.getId(), voucherId);
         return ResponseEntity.noContent().build();
