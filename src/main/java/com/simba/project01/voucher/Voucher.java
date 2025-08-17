@@ -19,15 +19,16 @@ public class Voucher
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(name = "v_status", nullable = false)
     private VoucherStatus vStatus;
 
-    @Column(nullable = false, updatable = false)
+    @Column(name = "issued_at", nullable = false, updatable = false)
     private LocalDateTime issuedAt; //발급 시간
 
-    @Column(nullable = false)
+    @Column(name = "expire_at", nullable = false)
     private LocalDateTime expireAt;
 
+    @Column(name = "used_at")
     private LocalDateTime usedAt; //사용 시간
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)

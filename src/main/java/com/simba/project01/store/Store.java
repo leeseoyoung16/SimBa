@@ -31,12 +31,13 @@ public class Store
     @Column(nullable=false, precision=9, scale=6)
     private BigDecimal longitude; //경도
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StoreCategory category;
 
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }

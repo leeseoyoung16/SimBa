@@ -37,7 +37,9 @@ public class Review
     @Column(nullable = false)
     private ReviewStatus status;
 
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+    @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -50,6 +52,7 @@ public class Review
 
     @PrePersist
     public void prePersist() {
+        if (status == null) status = ReviewStatus.PENDING;
         createdAt = LocalDateTime.now();
         updatedAt = createdAt;
     }

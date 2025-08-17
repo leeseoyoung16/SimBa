@@ -34,7 +34,7 @@ public class Mission
     @Column(name = "reward_total_count", nullable = false)
     private int rewardTotalCount;
 
-    @Column(nullable = false)
+    @Column(name = "reward_remaining_count",nullable = false)
     private int rewardRemainingCount;
 
     @Column(name = "start_at", nullable = false)
@@ -61,7 +61,7 @@ public class Mission
         if (rewardRemainingCount <= 0) {
             throw new IllegalStateException("지급 가능한 보상이 없습니다.");
         }
-        rewardRemainingCount--;
+        rewardRemainingCount = rewardRemainingCount -1;
     }
 
     public void increaseRewardCount()
@@ -75,7 +75,7 @@ public class Mission
     @Transient
     public boolean isJoinable(LocalDateTime when) {
         LocalDateTime t = (when != null) ? when : LocalDateTime.now();
-        boolean inPeriod = !t.isBefore(startAt) && !t.isAfter(endAt);
+        boolean inPeriod = !t.isBefore(startAt) && t.isBefore(endAt);
         boolean hasStock = rewardRemainingCount > 0;
         return inPeriod && hasStock;
     }
