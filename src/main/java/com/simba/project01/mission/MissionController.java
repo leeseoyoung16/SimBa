@@ -21,7 +21,7 @@ public class MissionController
     public ResponseEntity<Void> create(@Valid @RequestBody MissionCreateRequest request, @AuthenticationPrincipal LoginUser loginUser) {
         Long userId = loginUser.getId();
         Long missionId = missionService.create(request.getTitle(), request.getDescription(), request.getRewardContent(), request.getRewardCount(), request.getStartAt(),request.getEndAt(), request.getStoreId(), userId);
-        return ResponseEntity.created(java.net.URI.create("/missions/" + missionId)).build();
+        return ResponseEntity.created(java.net.URI.create("/itda/missions/" + missionId)).build();
     }
     //미션 수정
     @PatchMapping("/{missionId}")

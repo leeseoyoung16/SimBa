@@ -29,7 +29,7 @@ public class ReviewController
     {
         Long userId = user.getId();
         Long newId = reviewService.create(missionId, userId, image, request.getRating(), request.getContent());
-        return ResponseEntity.created(URI.create("/reviews/" + newId)).build();
+        return ResponseEntity.created(URI.create("/itda/reviews/" + newId)).build();
     }
     //리뷰 수정
     @PatchMapping(

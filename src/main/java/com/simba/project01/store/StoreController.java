@@ -25,7 +25,7 @@ public class StoreController
         Long userId = loginUser.getId();
         Long storeId = storeService.create(createRequest.getName(), createRequest.getLatitude(),
                 createRequest.getLongitude(), createRequest.getCategory(), createRequest.getDescription(), userId);
-        return ResponseEntity.created(URI.create("/stores/" + storeId)).build();
+        return ResponseEntity.created(URI.create("/itda/stores/" + storeId)).build();
     }
 
     //삭제 (관리자, 자기 소유)
