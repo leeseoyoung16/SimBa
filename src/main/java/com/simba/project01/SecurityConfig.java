@@ -1,5 +1,7 @@
 package com.simba.project01;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -59,7 +61,20 @@ public class SecurityConfig {
                 // 세션 기반, 폼/베이직 비활성(프런트에서 API로 로그인한다고 가정)
                 .formLogin(form -> form.disable())
                 .httpBasic(b -> b.disable())
-                .userDetailsService(userDetailsService);
+                .userDetailsService(userDetailsService)
+
+                //로그아웃
+                .logout(logout -> logout
+                        .logoutUrl("/auth/logout")
+                        .deleteCookies("JSESSIONID")
+                        .invalidateHttpSession(true) //세션 무효화
+                        .clearAuthentication(true) //인증 정보 비움
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.setContentType("application/json;charset=UTF-8");
+                            response.getWriter().write("{\"message\": \"로그아웃 성공\"}");
+                        })
+                );
 
         return http.build();
     }
