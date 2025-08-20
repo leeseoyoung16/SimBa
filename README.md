@@ -74,8 +74,7 @@
 
 | 메서드 | URI | 설명 | 권한 |
 | --- | --- | --- | --- |
-| **POST** | `/itda/missions/{missionId}/reviews` | 리뷰 생성
- (별점·내용·이미지 업로드) | USER |
+| **POST** | `/itda/missions/{missionId}/reviews` | 리뷰 생성 (별점·내용·이미지 업로드) | USER |
 | **PATCH** | `/itda/reviews/{reviewId}` | 리뷰 부분 수정(별점/내용/이미지) **PENDING일 때만 가능** | USER(본인) |
 | **DELETE** | `/itda/reviews/{reviewId}` | 리뷰 삭제  | USER(본인) / ADMIN |
 | **PATCH** | `/itda/reviews/{reviewId}/status={status}` | 리뷰 상태 변경 (`APPROVED`/`REJECTED`) | OWNER(본인) / ADMIN |
