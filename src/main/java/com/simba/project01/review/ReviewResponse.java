@@ -2,6 +2,8 @@ package com.simba.project01.review;
 
 import lombok.Getter;
 
+import java.time.LocalDateTime;
+
 @Getter
 public class ReviewResponse
 {
@@ -13,6 +15,7 @@ public class ReviewResponse
     private Long userId;
     private String imgUrl;
     private String storeName;
+    private LocalDateTime createdAt;
 
     public ReviewResponse(Review review) {
         this.id = review.getId();
@@ -23,5 +26,6 @@ public class ReviewResponse
         this.userId = review.getUser().getId();
         this.imgUrl = review.getImgUrl();
         this.storeName = review.getMission().getStore().getName();
+        this.createdAt = review.getCreatedAt();
     }
 }

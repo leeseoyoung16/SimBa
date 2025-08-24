@@ -41,11 +41,9 @@ public class Mission
     @Column(name = "img_url")
     private String imgUrl;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "start_at", nullable = false)
     private LocalDateTime startAt;
 
-    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "end_at", nullable = false)
     private LocalDateTime endAt;
 

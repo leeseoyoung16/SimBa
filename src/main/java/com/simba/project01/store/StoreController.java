@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class StoreController
     //삭제 (관리자, 자기 소유)
     @PreAuthorize("hasRole('OWNER') or hasRole('ADMIN')")
     @DeleteMapping("/stores/{storeId}")
-    public ResponseEntity<Void> deleteStore(@PathVariable Long storeId, @AuthenticationPrincipal LoginUser loginUser)
+    public ResponseEntity<Void> deleteStore(@PathVariable("storeId") Long storeId, @AuthenticationPrincipal LoginUser loginUser)
     {
         storeService.delete(storeId, loginUser.getId());
         return ResponseEntity.noContent().build();
@@ -81,12 +82,12 @@ public class StoreController
     }
 
     //가게 별 리뷰 요약
-    @GetMapping("/stores/{storeId}/summary")
-    public ResponseEntity<String> getReviewSummary(@PathVariable Long storeId)
-    {
+    @GetMapping("/stores/{storeId}/reviews/summary")
+    public ResponseEntity<Map<String, String>> getReviewSummary(@PathVariable("storeId") Long storeId) {
         String summary = reviewSummaryService.summarizeReviews(storeId);
-        return ResponseEntity.ok(summary);
+        return ResponseEntity.ok(Map.of("summary", summary));
     }
+
 
     //사용자 별 가게
     @GetMapping("/me/stores")
