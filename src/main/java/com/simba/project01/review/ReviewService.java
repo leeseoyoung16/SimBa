@@ -60,7 +60,7 @@ public class ReviewService
             Path filePath = Paths.get(uploadDir, fileName);
             try {
                 img.transferTo(filePath.toFile());
-                imageUrl = "/upload/" + fileName;
+                imageUrl = "/uploads/review/" + fileName;
             } catch (IOException e) {
                 File f = filePath.toFile();
                 if (f.exists()) f.delete();
@@ -111,7 +111,7 @@ public class ReviewService
             Path filePath = Paths.get(uploadDir, fileName);
             try {
                 img.transferTo(filePath.toFile());
-                review.setImgUrl("/upload/" + fileName);
+                review.setImgUrl("/uploads/review/" + fileName);
             } catch (IOException e) {
                 File f = filePath.toFile();
                 if (f.exists()) f.delete();

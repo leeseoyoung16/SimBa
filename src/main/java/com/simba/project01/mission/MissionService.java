@@ -46,7 +46,7 @@ public class MissionService
             Path filePath = Paths.get(uploadDir, fileName);
             try {
                 img.transferTo(filePath.toFile());
-                imageUrl = "/upload/" + fileName;
+                imageUrl = "/uploads/mission/" + fileName;
             } catch (IOException e) {
                 File f = filePath.toFile();
                 if (f.exists()) f.delete();
@@ -117,7 +117,7 @@ public class MissionService
             Path filePath = Paths.get(uploadDir, fileName);
             try {
                 img.transferTo(filePath.toFile());
-                mission.setImgUrl("/upload/" + fileName);
+                mission.setImgUrl("/uploads/mission/" + fileName);
             } catch (IOException e) {
                 File f = filePath.toFile();
                 if (f.exists()) f.delete();

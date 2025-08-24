@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED))
                 .authorizeHttpRequests(auth -> auth
                         // 정적 리소스 (React build 결과물) 및 HTML 페이지 허용
-                        .requestMatchers("/", "/static/**", "/index.html","/upload/**", "/upload/*").permitAll()
+                        .requestMatchers("/", "/static/**", "/index.html","/uploads/review/***", "/uploads/mission/**").permitAll()
 
                         // 인증/회원가입 API 허용
                         .requestMatchers("/itda/auth/**").permitAll()
