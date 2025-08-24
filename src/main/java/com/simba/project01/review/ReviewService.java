@@ -33,7 +33,7 @@ public class ReviewService
     private final StoreRepository storeRepository;
     private final VoucherRepository reviewVoucherRepository;
 
-    @Value("${file.upload-dir}")
+    @Value("${file.review-upload-dir}")
     private String uploadDir;
 
     //리뷰 작성

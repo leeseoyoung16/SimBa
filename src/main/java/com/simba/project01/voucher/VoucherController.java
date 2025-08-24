@@ -10,6 +10,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/itda")
 public class VoucherController
 {
     private final VoucherService voucherService;

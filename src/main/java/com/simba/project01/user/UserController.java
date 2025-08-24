@@ -8,22 +8,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/itda")
 public class UserController
 {
     private final UserService userService;
     private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
 
     // 로그인 세션 기반
-    @PostMapping("/login")
+    @PostMapping("/auth/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         UsernamePasswordAuthenticationToken token =
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
@@ -41,9 +41,17 @@ public class UserController
     }
 
     //회원 가입
-    @PostMapping("/register")
+    @PostMapping("/auth/register")
     public ResponseEntity<Void> register(@RequestBody RegisterRequest registerRequest) {
-        userService.register(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getEmail());
+        userService.register(registerRequest.getUsername(), registerRequest.getPassword(), registerRequest.getEmail(), registerRequest.getRole());
         return ResponseEntity.noContent().build();
+    }
+
+    //회원 정보 반환
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse> getMe(@AuthenticationPrincipal LoginUser loginUser) {
+        Long userId = loginUser.getId();
+        User user = userRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("사용자가 존재하지 않습니다."));
+        return ResponseEntity.ok(new UserResponse(user));
     }
 }

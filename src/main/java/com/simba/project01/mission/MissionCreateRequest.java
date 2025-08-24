@@ -1,5 +1,6 @@
 package com.simba.project01.mission;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 
@@ -27,10 +28,12 @@ public class MissionCreateRequest
     private Integer rewardCount;
 
     @NotNull(message = "시작 일시는 필수 항목입니다.")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     @FutureOrPresent(message = "시작 일시는 현재보다 과거일 수 없습니다.")
     private LocalDateTime startAt;
 
     @NotNull(message = "종료 일시는 필수 항목입니다.")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     @Future(message = "종료 일시는 현재 이후여야 합니다.")
     private LocalDateTime endAt;
 

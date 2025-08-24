@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -37,9 +38,14 @@ public class Mission
     @Column(name = "reward_remaining_count",nullable = false)
     private int rewardRemainingCount;
 
+    @Column(name = "img_url")
+    private String imgUrl;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "start_at", nullable = false)
     private LocalDateTime startAt;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "end_at", nullable = false)
     private LocalDateTime endAt;
 

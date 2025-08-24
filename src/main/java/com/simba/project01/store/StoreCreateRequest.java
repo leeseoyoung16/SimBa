@@ -1,6 +1,7 @@
 package com.simba.project01.store;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 
@@ -17,9 +18,11 @@ public class StoreCreateRequest
 
     private BigDecimal longitude; //경도
 
-    @NotBlank(message = "카테고리는 필수 선택 항목입니다.")
+    private String businessNumber;
+
+    private String address;
+
+    @NotNull(message = "카테고리는 필수 선택 항목입니다.")
     private StoreCategory category;
 
-    @Size(min=2, max=100, message = "가게 설명은 2자 이상 100자 이내여야 합니다.")
-    private String description;
 }

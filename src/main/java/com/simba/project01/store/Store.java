@@ -25,6 +25,12 @@ public class Store
     @Column(nullable = false, length = 50)
     private String name;
 
+    @Column(nullable = false, name = "business_number")
+    private String businessNumber;
+
+    @Column(nullable = false)
+    private String address;
+
     @Column(nullable=false, precision=9, scale=6)
     private BigDecimal latitude; //위도
 
@@ -34,8 +40,6 @@ public class Store
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StoreCategory category;
-
-    private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)

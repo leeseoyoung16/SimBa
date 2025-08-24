@@ -14,6 +14,9 @@ public class VoucherResponse
     private LocalDateTime usedAt;
     private Long userId;
     private Long missionId;
+    private Long storeId;
+    private String storeName;
+    private String rewardContent;
 
     public VoucherResponse(Voucher voucher) {
         this.voucherId = voucher.getId();
@@ -23,6 +26,9 @@ public class VoucherResponse
         this.usedAt = voucher.getUsedAt();
         this.userId = voucher.getReview().getUser().getId();
         this.missionId = voucher.getReview().getMission().getId();
+        this.storeId = voucher.getReview().getMission().getStore().getId();
+        this.storeName = voucher.getReview().getMission().getStore().getName();
+        this.rewardContent = voucher.getReview().getMission().getRewardContent();
     }
 
 }

@@ -11,6 +11,8 @@ public class ReviewResponse
     private String content;
     private String status;
     private Long userId;
+    private String imgUrl;
+    private String storeName;
 
     public ReviewResponse(Review review) {
         this.id = review.getId();
@@ -19,5 +21,7 @@ public class ReviewResponse
         this.content = review.getContent();
         this.status = review.getStatus().name();
         this.userId = review.getUser().getId();
+        this.imgUrl = review.getImgUrl();
+        this.storeName = review.getMission().getStore().getName();
     }
 }

@@ -10,4 +10,5 @@ public interface StoreRepository extends JpaRepository<Store, Long>
     boolean existsByLatitudeAndLongitude(BigDecimal latitude, BigDecimal longitude);
 
     List<Store> findByCategory(StoreCategory category);
+    List<Store> findAllByUserId(Long userId);
 }

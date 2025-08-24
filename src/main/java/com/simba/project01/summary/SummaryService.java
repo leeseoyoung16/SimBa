@@ -25,7 +25,9 @@ public class SummaryService
             cleaned = cleaned.substring(0, MAX_INPUT_CHARS);
         }
 
-        String prompt = "이 가게의 장단점을 포함하여 한국어로 한 줄로 평가해줘. \n---\n" + cleaned;
+        String prompt = "다음 리뷰 내용을 기반으로, 거짓 없이 가게의 장점과 단점을 모두 포함해 한 줄로 평가해줘.\n" +
+                "\n" + "리뷰에 명시된 내용만 사용하고, 없는 내용은 추측하거나 거짓으로 작성하지 마.\n" +
+                "\n" + "한 줄 평은 자연스러운 한국어 문장으로 작성해줘. \n---\n" + cleaned;
 
 
         try {

@@ -8,6 +8,8 @@ import lombok.Getter;
 @Getter
 public class RegisterRequest
 {
+    private UserRole role;
+
     @Size(min = 4, max = 15, message = "ID는 4자 이상 15자 이하여야 합니다.")
     @NotBlank(message = "아이디는 필수 입력 항목입니다.")
     private String username;

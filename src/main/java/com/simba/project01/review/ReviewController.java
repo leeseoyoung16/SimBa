@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/itda")
 public class ReviewController
 {
     private final ReviewService reviewService;
@@ -36,8 +37,8 @@ public class ReviewController
             value ="/reviews/{reviewId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> update(@AuthenticationPrincipal LoginUser user, @PathVariable Long reviewId
-                                       , @Valid @RequestPart("request") ReviewUpdatedRequest request
-                                       , @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
+            , @Valid @RequestPart("request") ReviewUpdatedRequest request
+            , @RequestPart(value = "image", required = false) MultipartFile image) throws IOException {
         Long userId = user.getId();
         reviewService.update(reviewId, userId, image, request.getRating(), request.getContent());
         return ResponseEntity.noContent().build();

@@ -22,7 +22,8 @@ public class StoreService
 
     // 가게 생성
     @Transactional
-    public Long create(String name, BigDecimal latitude, BigDecimal longitude, StoreCategory category, String description, Long userId) {
+    public Long create(String name, BigDecimal latitude, BigDecimal longitude, StoreCategory category,
+                        Long userId, String businessNumber, String address) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
         BigDecimal lat = latitude.setScale(6, RoundingMode.HALF_UP);
@@ -36,8 +37,9 @@ public class StoreService
         store.setLatitude(lat);
         store.setLongitude(lng);
         store.setCategory(category);
-        store.setDescription(description);
         store.setUser(user);
+        store.setBusinessNumber(businessNumber);
+        store.setAddress(address);
 
         try {
             storeRepository.save(store);
@@ -49,6 +51,49 @@ public class StoreService
         }
         return store.getId();
     }
+
+    //가게 수정
+    @Transactional
+    public void update(Long storeId, Long userId, String name, BigDecimal latitude, BigDecimal longitude,
+                       StoreCategory category, String businessNumber, String address) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 사용자입니다."));
+
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 가게입니다."));
+
+        boolean isAdmin = user.getRole() == UserRole.ADMIN;
+        boolean isOwner = store.getUser().getId().equals(user.getId());
+
+        if (!isAdmin && !isOwner) {
+            throw new AccessDeniedException("수정 권한이 없습니다.");
+        }
+
+        // 좌표가 들어온 경우에만 setScale 및 중복 체크 진행
+        if (latitude != null && longitude != null) {
+            BigDecimal lat = latitude.setScale(6, RoundingMode.HALF_UP);
+            BigDecimal lng = longitude.setScale(6, RoundingMode.HALF_UP);
+
+            boolean isSameLocation = store.getLatitude().compareTo(lat) == 0
+                    && store.getLongitude().compareTo(lng) == 0;
+            boolean isDuplicateLocation = storeRepository.existsByLatitudeAndLongitude(lat, lng)
+                    && !isSameLocation;
+
+            if (isDuplicateLocation) {
+                throw new IllegalArgumentException("해당 위치에 이미 등록된 가게가 존재합니다.");
+            }
+
+            store.setLatitude(lat);
+            store.setLongitude(lng);
+        }
+
+        store.setName(name);
+        store.setCategory(category);
+        store.setBusinessNumber(businessNumber);
+        store.setAddress(address);
+    }
+
 
     //가게 삭제
     @Transactional
@@ -85,5 +130,12 @@ public class StoreService
     public List<Store> findByCategory(StoreCategory category)
     {
         return storeRepository.findByCategory(category);
+    }
+
+    //사용자별 가게 조회
+    @Transactional(readOnly = true)
+    public List<Store> findByUser(Long userId)
+    {
+        return storeRepository.findAllByUserId(userId);
     }
 }

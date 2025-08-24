@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 
@@ -22,12 +23,15 @@ public class Voucher
     @Column(name = "v_status", nullable = false)
     private VoucherStatus vStatus;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "issued_at", nullable = false, updatable = false)
     private LocalDateTime issuedAt; //발급 시간
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "expire_at", nullable = false)
     private LocalDateTime expireAt;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     @Column(name = "used_at")
     private LocalDateTime usedAt; //사용 시간
 
